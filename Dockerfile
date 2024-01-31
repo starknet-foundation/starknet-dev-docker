@@ -29,16 +29,14 @@ RUN source $HOME/.zshrc
 # Add asdf binaries to path
 ENV PATH $PATH:$HOME/.asdf/bin:$HOME/.asdf/shims
 
-# Install scarb with asdf
+# Install common dependenies with asdf
 RUN asdf plugin add scarb
-RUN asdf install scarb 2.5.1
-
-# Install starknet foundry with asdf
 RUN asdf plugin add starknet-foundry
-RUN asdf install starknet-foundry 0.16.0
-
-# Install nodejs with asdf
 RUN asdf plugin add nodejs
-RUN asdf install nodejs 21.5.0
+RUN asdf plugin add python
 
 WORKDIR /app
+
+COPY .tool-versions .
+
+RUN asdf install
