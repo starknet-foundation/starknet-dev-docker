@@ -14,9 +14,6 @@ ENV PATH $PATH:$HOME/.bin:$HOME/.local/bin
 # Install oh-my-zsh for VSCode's DevContainer plugin
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Install starkli
-RUN curl https://get.starkli.sh | sh
-
 # Install and configure asdf
 RUN git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
 
@@ -31,12 +28,15 @@ ENV PATH $PATH:$HOME/.asdf/bin:$HOME/.asdf/shims
 
 # Install common dependenies with asdf
 RUN asdf plugin add scarb
+RUN asdf install scarb latest
+RUN asdf global scarb latest
+
 RUN asdf plugin add starknet-foundry
+RUN asdf install starknet-foundry latest
+RUN asdf global starknet-foundry latest
+
 RUN asdf plugin add nodejs
-RUN asdf plugin add python
+RUN asdf install nodejs latest
+RUN asdf global nodejs latest
 
 WORKDIR /app
-
-COPY .tool-versions .
-
-RUN asdf install
