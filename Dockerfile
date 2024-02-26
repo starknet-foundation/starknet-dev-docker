@@ -28,15 +28,15 @@ ENV PATH $PATH:$HOME/.asdf/bin:$HOME/.asdf/shims
 
 # Install common dependenies with asdf
 RUN asdf plugin add scarb
-RUN asdf install scarb latest
-RUN asdf global scarb latest
+RUN asdf install scarb 2.5.4
+RUN asdf global scarb 2.5.4
 
 RUN asdf plugin add starknet-foundry
-RUN asdf install starknet-foundry latest
-RUN asdf global starknet-foundry latest
+RUN asdf install starknet-foundry 0.18.0
+RUN asdf global starknet-foundry 0.18.0
 
 RUN asdf plugin add nodejs
-RUN asdf install nodejs latest
-RUN asdf global nodejs latest
+RUN asdf install nodejs 21.6.1
+RUN asdf global nodejs 21.6.1
 
 WORKDIR /app
