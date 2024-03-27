@@ -13,7 +13,7 @@ docker compose run --rm test
 To build and tag the image:
 
 ```
-docker build -t barretodavid/starknet-dev:<tag> .
+docker build --no-cache -t barretodavid/starknet-dev:<tag> .
 ```
 
 To push the image to Docker hub:
