@@ -5,7 +5,7 @@ edition = "2023_01"
 
 [dependencies]
 starknet = "2.6.3"
-snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry.git", tag = "v0.20.0" }
+snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry.git", tag = "v0.20.1" }
 kill_switch = { git = "https://github.com/starknet-edu/kill-switch.git" }
 
 [[target.starknet-contract]]
