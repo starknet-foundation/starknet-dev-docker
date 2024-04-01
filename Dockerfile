@@ -15,7 +15,7 @@ ENV HOME /home/appuser
 ENV PATH $PATH:$HOME/.local/bin
 
 # Install oh-my-zsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN ash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install Scarb
 RUN ash -c "$(curl -fsSL https://docs.swmansion.com/scarb/install.sh)" -s -- -v 2.6.3
