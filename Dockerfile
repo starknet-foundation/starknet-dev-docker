@@ -22,6 +22,6 @@ RUN ash -c "$(curl -fsSL https://docs.swmansion.com/scarb/install.sh)" -s -- -v 
 
 # Install Starknet Foundry
 RUN ash -c "$(curl -fsSL https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh)" -s
-RUN snfoundryup -v 0.20.1
+RUN snfoundryup -v 0.23.0
 
 WORKDIR /app

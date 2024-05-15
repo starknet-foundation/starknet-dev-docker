@@ -2,7 +2,7 @@ use super::utils::{deploy_contract, Errors};
 use kill_switch::{IKillSwitchDispatcher, IKillSwitchDispatcherTrait};
 use counter::counter::{ICounterDispatcher, ICounterDispatcherTrait};
 use snforge_std::{
-    spy_events, EventSpy, EventFetcher, event_name_hash, EventAssertions, Event, SpyOn
+    spy_events, EventSpy, EventFetcher, EventAssertions, Event, SpyOn
 };
 
 #[test]
@@ -22,7 +22,7 @@ fn test_counter_event() {
 
     assert(event.keys.len() == 1, 'There should be one key');
 
-    assert(event.keys.at(0) == @event_name_hash('CounterIncreased'), 'Wrong event name');
+    assert(event.keys.at(0) == @selector!("CounterIncreased"), 'Wrong event name');
 
     assert(event.data.len() == 1, 'There should be one data');
 }
