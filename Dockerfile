@@ -18,10 +18,10 @@ ENV PATH $PATH:$HOME/.local/bin
 RUN ash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install Scarb
-RUN ash -c "$(curl -fsSL https://docs.swmansion.com/scarb/install.sh)" -s -- -v 2.6.4
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.6.5
 
 # Install Starknet Foundry
 RUN ash -c "$(curl -fsSL https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh)" -s
-RUN snfoundryup -v 0.23.0
+RUN snfoundryup -v 0.27.0
 
 WORKDIR /app
