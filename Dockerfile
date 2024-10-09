@@ -17,6 +17,9 @@ ENV PATH=$PATH:$HOME/.local/bin
 # Install oh-my-zsh
 RUN ash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
 # Install Scarb
 RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.8.4
 
@@ -29,10 +32,10 @@ RUN ARCH=$(uname -m) && \
     echo "Architecture detected: $ARCH" && \
     if [ "$ARCH" = "x86_64" ]; then \
         echo "Installing binary for x86_64"; \
-        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.0/starknet-devnet-x86_64-unknown-linux-musl.tar.gz | tar -xvz -C /home/appuser/.local/bin; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.0/starknet-devnet-x86_64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
     elif [ "$ARCH" = "aarch64" ]; then \
         echo "Installing binary for ARM64"; \
-        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.0/starknet-devnet-aarch64-unknown-linux-musl.tar.gz | tar -xvz -C /home/appuser/.local/bin; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.0/starknet-devnet-aarch64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
     else \
         echo "Unknown architecture: $ARCH"; \
         exit 1; \
