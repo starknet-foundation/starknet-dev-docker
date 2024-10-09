@@ -1,21 +1,23 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
-RUN apk update && apk upgrade
-RUN apk add --no-cache nodejs npm git curl zsh
+# Update current packages
+RUN apt update && apt upgrade -y
 
-# Set zsh as the default shell
-SHELL ["/bin/zsh", "-c"]
-ENV SHELL=/bin/zsh
+# Install new packages
+RUN apt install -y nodejs npm git curl zsh build-essential
+
+# Clean up after install to reduce image size
+RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 # For security reason, it's best to create a user to avoid using root by default
-RUN adduser -D appuser
+RUN useradd -m -s /bin/zsh appuser
 USER appuser
 
 ENV HOME=/home/appuser
 ENV PATH=$PATH:$HOME/.local/bin
 
 # Install oh-my-zsh
-RUN ash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s
 
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -24,7 +26,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.8.4
 
 # Install Starknet Foundry
-RUN ash -c "$(curl -fsSL https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh)" -s
+RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
 RUN snfoundryup -v 0.31.0
 
 # Download starknet-devnet binary based on host architecture
