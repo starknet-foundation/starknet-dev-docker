@@ -22,6 +22,11 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyz
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+# Install Starkli
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get.starkli.sh | sh -s
+ENV PATH=$PATH:$HOME/.starkli/bin
+RUN starkliup
+
 # Install Scarb
 RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.8.5
 
