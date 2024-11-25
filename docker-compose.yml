@@ -1,6 +1,0 @@
-services:
-  test:
-    build: .
-    volumes:
-      - .:/app
-    command: scarb test
