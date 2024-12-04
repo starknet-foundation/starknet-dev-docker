@@ -4,7 +4,7 @@ FROM ubuntu:latest
 RUN apt update && apt upgrade -y
 
 # Install new packages
-RUN apt install -y nodejs npm git curl zsh build-essential
+RUN apt install -y nodejs npm git curl zsh build-essential vim
 
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
@@ -21,6 +21,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyz
 
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="$HOME/.cargo/bin:$PATH"
 
 # Install Starkli
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get.starkli.sh | sh -s
@@ -28,21 +29,21 @@ ENV PATH=$PATH:$HOME/.starkli/bin
 RUN starkliup
 
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.8.5
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.9.1
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.33.0
+RUN snfoundryup -v 0.34.0
 
 # Download starknet-devnet binary based on host architecture
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: $ARCH" && \
     if [ "$ARCH" = "x86_64" ]; then \
         echo "Installing binary for x86_64"; \
-        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.2/starknet-devnet-x86_64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.3/starknet-devnet-x86_64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
     elif [ "$ARCH" = "aarch64" ]; then \
         echo "Installing binary for ARM64"; \
-        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.2/starknet-devnet-aarch64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v0.2.3/starknet-devnet-aarch64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
     else \
         echo "Unknown architecture: $ARCH"; \
         exit 1; \
