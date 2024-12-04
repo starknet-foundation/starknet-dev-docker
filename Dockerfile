@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 # Update current packages
 RUN apt update && apt upgrade -y

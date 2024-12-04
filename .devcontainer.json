@@ -1,5 +1,7 @@
 {
     "name": "dev",
+    "remoteUser": "appuser",
+    "workspaceFolder": "/home/appuser",
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
