@@ -1,7 +1,5 @@
 {
     "name": "dev",
-    "remoteUser": "appuser",
-    "workspaceFolder": "/home/appuser",
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
@@ -10,8 +8,8 @@
         "vscode": {
             "extensions": [
                 "StarkWare.cairo1",
-                "ms-azuretools.vscode-docker",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "ms-azuretools.vscode-docker"
 		    ]
         }
     }

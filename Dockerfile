@@ -29,11 +29,11 @@ ENV PATH=$PATH:$HOME/.starkli/bin
 RUN starkliup
 
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.9.1
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.9.2
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.34.0
+RUN snfoundryup -v 0.35.1
 
 # Download starknet-devnet binary based on host architecture
 RUN ARCH=$(uname -m) && \
