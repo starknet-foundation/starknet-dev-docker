@@ -60,4 +60,4 @@ RUN ARCH=$(uname -m) && \
         exit 1; \
     fi
 
-WORKDIR /app
+WORKDIR /workspace
