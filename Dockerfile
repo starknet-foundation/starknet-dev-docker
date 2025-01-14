@@ -9,11 +9,10 @@ RUN apt install -y git curl zsh build-essential vim bash
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# For security reason, it's best to create a user to avoid using root by default
-RUN useradd -m -s /bin/zsh appuser
-USER appuser
+# For security reason, it's best to use non-root user, and the ubuntu image come wiith default ubuntu by default
+USER ubuntu
 
-ENV HOME=/home/appuser
+ENV HOME=/home/ubuntu
 ENV PATH=${PATH}:${HOME}/.local/bin
 
 # Install nvm, nodejs and yarn
