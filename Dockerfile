@@ -39,14 +39,14 @@ ENV PATH=${PATH}:${HOME}/.starkli/bin
 RUN starkliup
 
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.9.2
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.9.4
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.35.1
+RUN snfoundryup -v 0.37.0
 
 # Download starknet-devnet binary based on host architecture
-ENV DEVNET_VERSION=0.2.3
+ENV DEVNET_VERSION=0.2.4
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: ${ARCH}" && \
     if [ "${ARCH}" = "x86_64" ]; then \
