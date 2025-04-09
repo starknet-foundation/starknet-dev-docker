@@ -31,6 +31,7 @@ jobs:
             starknetfoundation/starknet-dev:latest
             starknetfoundation/starknet-dev:${{ github.ref_name }}
           platforms: linux/amd64,linux/arm64
+          no-cache: true
 
       - name: Log out of Docker Hub
         run: docker logout
