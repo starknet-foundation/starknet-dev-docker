@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:24.10
 
 # Update current packages
 RUN apt update && apt upgrade -y
@@ -9,22 +9,25 @@ RUN apt install -y git curl zsh build-essential vim bash
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# For security reason, it's best to use non-root user, and the ubuntu image come wiith default ubuntu by default
+# For security reason, it's best to use non-root user, and the ubuntu image comes with an ubuntu user by default
 USER ubuntu
 
 ENV HOME=/home/ubuntu
 ENV PATH=${PATH}:${HOME}/.local/bin
 
 # Install nvm, nodejs and yarn
-ENV NODE_VERSION=22.12.0
+ENV NODE_VERSION=23.11.0
 ENV NVM_DIR=${HOME}/.nvm
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash -s \
+RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash -s \
     && . ${NVM_DIR}/nvm.sh \
     && nvm install ${NODE_VERSION} \
-    && npm install -g yarn
+    && npm install -g npm corepack
 
 ENV PATH=${PATH}:${NVM_DIR}/versions/node/v${NODE_VERSION}/bin
+
+# Activate Yarn
+RUN corepack prepare yarn@stable --activate
 
 # Install oh-my-zsh
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s
@@ -43,7 +46,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/instal
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.37.0
+RUN snfoundryup -v 0.38.2
 
 # Download starknet-devnet binary based on host architecture
 ENV DEVNET_VERSION=0.2.4
