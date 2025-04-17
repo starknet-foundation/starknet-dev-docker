@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM node:slim
 
 # Update current packages
 RUN apt update && apt upgrade -y
@@ -9,22 +9,17 @@ RUN apt install -y git curl zsh build-essential vim bash
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# For security reason, it's best to use non-root user, and the ubuntu image come wiith default ubuntu by default
-USER ubuntu
+# Update npm and install corepack
+RUN npm install -g npm corepack && \
+    chown -R node:node /usr/local/lib/node_modules
 
-ENV HOME=/home/ubuntu
+# Switch to non-root user
+USER node
+ENV HOME=/home/node
 ENV PATH=${PATH}:${HOME}/.local/bin
 
-# Install nvm, nodejs and yarn
-ENV NODE_VERSION=22.12.0
-ENV NVM_DIR=${HOME}/.nvm
-
-RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash -s \
-  && . ${NVM_DIR}/nvm.sh \
-  && nvm install ${NODE_VERSION} \
-  && npm install -g yarn
-
-ENV PATH=${PATH}:${NVM_DIR}/versions/node/v${NODE_VERSION}/bin
+# Activate Yarn
+RUN corepack prepare yarn@stable --activate
 
 # Install oh-my-zsh
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s
@@ -39,21 +34,21 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/instal
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.40.0
+RUN snfoundryup -v 0.41.0
 
 # Download starknet-devnet binary based on host architecture
 ENV DEVNET_VERSION=0.3.0
 RUN ARCH=$(uname -m) && \
-  echo "Architecture detected: ${ARCH}" && \
-  if [ "${ARCH}" = "x86_64" ]; then \
-    echo "Installing binary for x86_64"; \
-    curl -sSfL https://github.com/0xSpaceShard/starknet-devnet/releases/download/v${DEVNET_VERSION}/starknet-devnet-x86_64-unknown-linux-musl.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
-  elif [ "${ARCH}" = "aarch64" ]; then \
-    echo "Installing binary for ARM64"; \
-    curl -sSfL https://github.com/0xSpaceShard/starknet-devnet/releases/download/v${DEVNET_VERSION}/starknet-devnet-aarch64-unknown-linux-gnu.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
-  else \
-    echo "Unknown architecture: ${ARCH}"; \
-    exit 1; \
-  fi
+    echo "Architecture detected: ${ARCH}" && \
+    if [ "${ARCH}" = "x86_64" ]; then \
+        echo "Installing binary for x86_64"; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v${DEVNET_VERSION}/starknet-devnet-x86_64-unknown-linux-gnu.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
+    elif [ "${ARCH}" = "aarch64" ]; then \
+        echo "Installing binary for ARM64"; \
+        curl -sSfL https://github.com/0xSpaceShard/starknet-devnet-rs/releases/download/v${DEVNET_VERSION}/starknet-devnet-aarch64-unknown-linux-gnu.tar.gz | tar -xvz -C ${HOME}/.local/bin; \
+    else \
+        echo "Unknown architecture: ${ARCH}"; \
+        exit 1; \
+    fi
 
 WORKDIR /workspace
