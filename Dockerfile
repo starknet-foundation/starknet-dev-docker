@@ -9,22 +9,14 @@ RUN apt install -y git curl zsh build-essential vim bash
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# For security reason, it's best to use non-root user, and the node image comes with a node user by default
-USER node
+# Update npm and install corepack
+RUN npm install -g npm corepack && \
+    chown -R node:node /usr/local/lib/node_modules
 
+# Switch to non-root user
+USER node
 ENV HOME=/home/node
 ENV PATH=${PATH}:${HOME}/.local/bin
-
-# Install nvm, nodejs and yarn
-ENV NODE_VERSION=23.11.0
-ENV NVM_DIR=${HOME}/.nvm
-
-RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash -s \
-    && . ${NVM_DIR}/nvm.sh \
-    && nvm install ${NODE_VERSION} \
-    && npm install -g npm corepack
-
-ENV PATH=${PATH}:${NVM_DIR}/versions/node/v${NODE_VERSION}/bin
 
 # Activate Yarn
 RUN corepack prepare yarn@stable --activate
