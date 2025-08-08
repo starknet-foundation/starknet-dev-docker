@@ -34,7 +34,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/instal
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.45.0
+RUN snfoundryup -v 0.46.0
 
 # Download starknet-devnet binary based on host architecture
 ENV DEVNET_VERSION=0.4.3
