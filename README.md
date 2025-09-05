@@ -44,7 +44,7 @@ Build and push the multi-arch image
 ```sh
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --tag starknetfoundation/starknet-dev:2.21.1 \
+  --tag starknetfoundation/starknet-dev:2.12.1 \
   --tag starknetfoundation/starknet-dev:latest \
   --push \
   .
