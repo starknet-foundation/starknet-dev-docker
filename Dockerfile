@@ -30,11 +30,11 @@ ENV PATH=${PATH}:${HOME}/.starkli/bin
 RUN starkliup
 
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.12.0
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.12.1
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.48.1
+RUN snfoundryup -v 0.49.0
 
 # Download starknet-devnet binary based on host architecture
 ENV DEVNET_VERSION=0.5.0

@@ -13,13 +13,13 @@ git push origin main
 Create a local tag that will be used as the tag of the image on Docker Hub.
 
 ```sh
-git tag 2.12.0
+git tag 2.12.1
 ```
 
 Push the local tag to the remote repo to trigger the Github action
 
 ```sh
-git push origin 2.12.0
+git push origin 2.12.1
 ```
 
 Verify that the Github action published the image to [Docker Hub](https://hub.docker.com/repository/docker/starknetfoundation/starknet-dev/general).
@@ -44,7 +44,7 @@ Build and push the multi-arch image
 ```sh
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --tag starknetfoundation/starknet-dev:2.11.4 \
+  --tag starknetfoundation/starknet-dev:2.21.1 \
   --tag starknetfoundation/starknet-dev:latest \
   --push \
   .
