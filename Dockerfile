@@ -37,7 +37,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/found
 RUN snfoundryup -v 0.49.0
 
 # Download starknet-devnet binary based on host architecture
-ENV DEVNET_VERSION=0.5.0
+ENV DEVNET_VERSION=0.5.1
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: ${ARCH}" && \
     if [ "${ARCH}" = "x86_64" ]; then \
