@@ -34,10 +34,10 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/instal
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.48.1
+RUN snfoundryup -v 0.49.0
 
 # Download starknet-devnet binary based on host architecture
-ENV DEVNET_VERSION=0.4.3
+ENV DEVNET_VERSION=0.5.1
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: ${ARCH}" && \
     if [ "${ARCH}" = "x86_64" ]; then \
