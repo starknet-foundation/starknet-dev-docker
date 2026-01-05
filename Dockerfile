@@ -9,35 +9,29 @@ RUN apt install -y git curl zsh build-essential vim bash
 # Clean up after install to reduce image size
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-# Update npm and install corepack
-RUN npm install -g npm corepack && \
-    chown -R node:node /usr/local/lib/node_modules
+# Install and enable corepack
+RUN npm install -g --force corepack && corepack enable
 
 # Switch to non-root user
 USER node
 ENV HOME=/home/node
 ENV PATH=${PATH}:${HOME}/.local/bin
 
-# Activate Yarn
+# Activate modern yarn (as node user)
 RUN corepack prepare yarn@stable --activate
 
 # Install oh-my-zsh
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s
 
-# Install Starkli
-RUN curl --proto '=https' --tlsv1.2 -sSf https://get.starkli.sh | sh -s
-ENV PATH=${PATH}:${HOME}/.starkli/bin
-RUN starkliup
-
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.12.1
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.15.0
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.49.0
+RUN snfoundryup -v 0.54.1
 
 # Download starknet-devnet binary based on host architecture
-ENV DEVNET_VERSION=0.5.1
+ENV DEVNET_VERSION=0.7.1
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: ${ARCH}" && \
     if [ "${ARCH}" = "x86_64" ]; then \
