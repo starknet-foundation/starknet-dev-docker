@@ -24,14 +24,14 @@ RUN corepack prepare yarn@stable --activate
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s
 
 # Install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.15.0
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.13.1
 
 # Install Starknet Foundry
 RUN curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh -s
-RUN snfoundryup -v 0.54.1
+RUN snfoundryup -v 0.52.0
 
 # Download starknet-devnet binary based on host architecture
-ENV DEVNET_VERSION=0.7.1
+ENV DEVNET_VERSION=0.6.0
 RUN ARCH=$(uname -m) && \
     echo "Architecture detected: ${ARCH}" && \
     if [ "${ARCH}" = "x86_64" ]; then \
